@@ -3,29 +3,29 @@
 // Lógica del CRUD de tareas, render de la tabla y filtros.
 // ============================================================
 
-const formTarea     = document.getElementById("form-tarea");
-const tbodyTareas   = document.getElementById("tbody-tareas");
-const tituloForm    = document.getElementById("form-titulo");
+const formTarea = document.getElementById("form-tarea");
+const tbodyTareas = document.getElementById("tbody-tareas");
+const tituloForm = document.getElementById("form-titulo");
 
 // Inputs del formulario
-const inpTitulo     = document.getElementById("titulo");
-const inpCurso      = document.getElementById("curso");
-const inpFecha      = document.getElementById("fecha");
-const inpPrioridad  = document.getElementById("prioridad");
-const inpEstado     = document.getElementById("estado");
-const inpDescripcion= document.getElementById("descripcion");
-const inpTareaId    = document.getElementById("tarea-id");
+const inpTitulo = document.getElementById("titulo");
+const inpCurso = document.getElementById("curso");
+const inpFecha = document.getElementById("fecha");
+const inpPrioridad = document.getElementById("prioridad");
+const inpEstado = document.getElementById("estado");
+const inpDescripcion = document.getElementById("descripcion");
+const inpTareaId = document.getElementById("tarea-id");
 
 // Filtros
-const filtroCurso      = document.getElementById("filtro-curso");
-const filtroPrioridad  = document.getElementById("filtro-prioridad");
-const filtroEstado     = document.getElementById("filtro-estado");
-const filtroFecha      = document.getElementById("filtro-fecha");
+const filtroCurso = document.getElementById("filtro-curso");
+const filtroPrioridad = document.getElementById("filtro-prioridad");
+const filtroEstado = document.getElementById("filtro-estado");
+const filtroFecha = document.getElementById("filtro-fecha");
 
 // Variables para confirmar eliminación
 let idAEliminar = null;
 const modalEliminarEl = document.getElementById("modalEliminar");
-const modalEliminar   = new bootstrap.Modal(modalEliminarEl);
+const modalEliminar = new bootstrap.Modal(modalEliminarEl);
 const btnConfirmarEliminar = document.getElementById("btn-confirmar-eliminar");
 
 // =====================================================
@@ -96,10 +96,10 @@ function formatearFecha(fechaISO) {
 // =====================================================
 function aplicarFiltros(tareas) {
     return tareas.filter(t => {
-        const coincideCurso     = !filtroCurso.value     || t.curso === filtroCurso.value;
+        const coincideCurso = !filtroCurso.value || t.curso === filtroCurso.value;
         const coincidePrioridad = !filtroPrioridad.value || t.prioridad === filtroPrioridad.value;
-        const coincideEstado    = !filtroEstado.value    || t.estado === filtroEstado.value;
-        const coincideFecha     = !filtroFecha.value     || t.fecha === filtroFecha.value;
+        const coincideEstado = !filtroEstado.value || t.estado === filtroEstado.value;
+        const coincideFecha = !filtroFecha.value || t.fecha === filtroFecha.value;
         return coincideCurso && coincidePrioridad && coincideEstado && coincideFecha;
     });
 }
@@ -111,9 +111,8 @@ formTarea.addEventListener("submit", (e) => {
     e.preventDefault();
 
     const formularioValido = validarFormulario(formTarea);
-    const fechaValida = validarFechaFutura(inpFecha);
 
-    if (!formularioValido || !fechaValida) {
+    if (!formularioValido) {
         return;
     }
 
@@ -161,9 +160,9 @@ tbodyTareas.addEventListener("click", (e) => {
     const accion = boton.dataset.accion;
     const id = boton.dataset.id;
 
-    if (accion === "editar")   cargarTareaEnFormulario(id);
+    if (accion === "editar") cargarTareaEnFormulario(id);
     if (accion === "eliminar") abrirModalEliminar(id);
-    if (accion === "toggle")   cambiarEstado(id);
+    if (accion === "toggle") cambiarEstado(id);
 });
 
 // =====================================================
@@ -173,13 +172,13 @@ function cargarTareaEnFormulario(id) {
     const tarea = buscarTareaStorage(id);
     if (!tarea) return;
 
-    inpTareaId.value    = tarea.id;
-    inpTitulo.value     = tarea.titulo;
-    inpCurso.value      = tarea.curso;
-    inpFecha.value      = tarea.fecha;
-    inpPrioridad.value  = tarea.prioridad;
-    inpEstado.value     = tarea.estado;
-    inpDescripcion.value= tarea.descripcion || "";
+    inpTareaId.value = tarea.id;
+    inpTitulo.value = tarea.titulo;
+    inpCurso.value = tarea.curso;
+    inpFecha.value = tarea.fecha;
+    inpPrioridad.value = tarea.prioridad;
+    inpEstado.value = tarea.estado;
+    inpDescripcion.value = tarea.descripcion || "";
 
     tituloForm.textContent = "Editar tarea";
     window.scrollTo({ top: 0, behavior: "smooth" });
